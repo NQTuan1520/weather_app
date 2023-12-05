@@ -87,7 +87,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
           final currentWeatherData = data['list'][0];
 
-          final currentTemp = currentWeatherData['main']['temp'];
+          double currentTemperature = currentWeatherData['main']['temp'] -273.15;
+          final currentTemp = currentTemperature.toStringAsFixed(2);
           final currentSky = currentWeatherData['weather'][0]['main'];
           final currentPressure = currentWeatherData['main']['pressure'];
           final currentWindSpeed = currentWeatherData['wind']['speed'];
@@ -114,7 +115,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           child: Column(
                             children: [
                               Text(
-                                '$currentTemp K',
+                                '$currentTemp °C',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
                                     fontSize: 32, fontWeight: FontWeight.bold),
                               ),
@@ -167,7 +170,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       final time = DateTime.parse(hourlyForecast['dt_txt']);
                       return HourlyForeCastItem(
                           time: DateFormat.j().format(time),
-                          temperature: hourlyForecast['main']['temp'].toString(),
+                          temperature: hourlyForecast['main']['temp'] - 273.15,
                           icon: hourlySky == 'Clouds'
                               ? WeatherIcons.cloud
                               : hourlySky == 'Rain'
