@@ -167,7 +167,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       final time = DateTime.parse(hourlyForecast['dt_txt']);
                       return HourlyForeCastItem(
                           time: DateFormat.j().format(time),
-                          temperatue: hourlyForecast['main']['temp'].toString(),
+                          temperature: hourlyForecast['main']['temp'].toString(),
                           icon: hourlySky == 'Clouds'
                               ? WeatherIcons.cloud
                               : hourlySky == 'Rain'
