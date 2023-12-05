@@ -10,7 +10,6 @@ import 'package:http/http.dart' as http;
 import 'package:weather_icons/weather_icons.dart';
 import 'package:intl/intl.dart';
 
-
 class WeatherScreen extends StatefulWidget {
   const WeatherScreen({super.key});
 
@@ -20,6 +19,7 @@ class WeatherScreen extends StatefulWidget {
 
 class _WeatherScreenState extends State<WeatherScreen> {
   late Future<Map<String, dynamic>> weather;
+
   Future<Map<String, dynamic>> getCurrentWeather() async {
     try {
       String cityName = 'Hanoi';
@@ -122,9 +122,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 height: 16,
                               ),
                               Icon(
-                                  currentSky == 'Cloud' || currentSky == 'Rain'
-                                      ? Icons.cloud
-                                      : Icons.sunny,
+                                  currentSky == 'Clouds'
+                                      ? WeatherIcons.cloud
+                                      : currentSky == 'Rain'
+                                          ? WeatherIcons.rain
+                                          : currentSky == 'Sunny'
+                                              ? WeatherIcons.sunrise
+                                              : WeatherIcons.cloudy_windy,
                                   size: 60),
                               const SizedBox(
                                 height: 16,
@@ -154,7 +158,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                 SizedBox(
                   height: 120,
                   child: ListView.builder(
-                    itemCount: 5,
+                    itemCount: 7,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       final hourlyForecast = data['list'][index + 1];
@@ -164,9 +168,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
                       return HourlyForeCastItem(
                           time: DateFormat.j().format(time),
                           temperatue: hourlyForecast['main']['temp'].toString(),
-                          icon: hourlySky == 'Clouds' || hourlySky == 'Rain'
-                              ? WeatherIcons.rain
-                              : WeatherIcons.cloud);
+                          icon: hourlySky == 'Clouds'
+                              ? WeatherIcons.cloud
+                              : hourlySky == 'Rain'
+                                  ? WeatherIcons.rain
+                                  : hourlySky == 'Sunny'
+                                      ? WeatherIcons.sunrise
+                                      : WeatherIcons.cloudy_windy);
                     },
                   ),
                 ),
